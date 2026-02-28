@@ -1,0 +1,40 @@
+Metadata-Version: 2.4
+Name: ml-model-lab
+Version: 0.2.0
+Summary: ML Model Lab playground with PySide6 and matplotlib
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: numpy>=1.23
+Requires-Dist: matplotlib>=3.7
+Requires-Dist: scikit-learn>=1.2
+Requires-Dist: PySide6>=6.5
+Provides-Extra: keras
+Requires-Dist: tensorflow>=2.12; extra == "keras"
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0; extra == "dev"
+
+# ML Model Lab (Playground)
+
+Desktop ML playground with PySide6 + matplotlib. Generates 2D synthetic datasets and trains multiple models.
+
+Features
+- Datasets: Circle, XOR, Gaussian, Linear, Spiral, Checkerboard
+- Models: Logistic Regression, SVM, Random Forest, KNN, MLPClassifier, Keras MLP (optional)
+- Metrics: accuracy, precision, recall, F1, ROC-AUC
+- Decision boundary heatmap
+- Training controls: Train, Step, Play/Pause, Reset
+
+Install and run
+1. `cd "/Users/vvshk/ml/ML Model Lab"`
+2. `python -m venv .venv`
+3. `source .venv/bin/activate`
+4. `pip install -U pip`
+5. `pip install -e .`
+6. `ml-model-lab`
+
+Keras support
+- `pip install -e .[keras]`
+
+Notes
+- Step and Play are supported only for Keras MLP.
+- If TensorFlow is not installed, the Keras model will not appear in the model list.

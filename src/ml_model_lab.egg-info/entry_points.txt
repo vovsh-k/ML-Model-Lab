@@ -1,0 +1,2 @@
+[console_scripts]
+ml-model-lab = ml_model_lab.app.__main__:main
