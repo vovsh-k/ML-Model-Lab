@@ -13,28 +13,43 @@ Requires-Dist: tensorflow>=2.12; extra == "keras"
 Provides-Extra: dev
 Requires-Dist: pytest>=7.0; extra == "dev"
 
-# ML Model Lab (Playground)
+# ML Model Lab
 
-Desktop ML playground with PySide6 + matplotlib. Generates 2D synthetic datasets and trains multiple models.
+Desktop ML playground built with Python, PySide6, matplotlib, scikit-learn, and optional TensorFlow/Keras.
 
-Features
-- Datasets: Circle, XOR, Gaussian, Linear, Spiral, Checkerboard
-- Models: Logistic Regression, SVM, Random Forest, KNN, MLPClassifier, Keras MLP (optional)
-- Metrics: accuracy, precision, recall, F1, ROC-AUC
-- Decision boundary heatmap
-- Training controls: Train, Step, Play/Pause, Reset
+Full project documentation: [docs/project_documentation.md](docs/project_documentation.md).
 
-Install and run
-1. `cd "/Users/vvshk/ml/ML Model Lab"`
-2. `python -m venv .venv`
-3. `source .venv/bin/activate`
-4. `pip install -U pip`
-5. `pip install -e .`
-6. `ml-model-lab`
+## Features
 
-Keras support
-- `pip install -e .[keras]`
+- Two workspaces: Neural Network and Classic Models.
+- Synthetic datasets: Circle, XOR, Gaussian, Linear, Spiral, Checkerboard.
+- Feature switches: x1, x2, x1^2, x2^2, x1*x2, sin(x1), sin(x2).
+- Classic models: Logistic Regression, SVM, Random Forest, KNN, MLPClassifier.
+- Keras MLP page with Step, Play, Stop, Train, Reset, hidden-layer diagram, loss curve, and Playground-style defaults.
+- Neural-network architecture editing through buttons: add/remove hidden layers and add/remove neurons.
+- Decision boundary heatmap with matched class colors.
+- Fast Auto params for classic models through small GridSearchCV presets.
 
-Notes
-- Step and Play are supported only for Keras MLP.
-- If TensorFlow is not installed, the Keras model will not appear in the model list.
+## Install and run
+
+```bash
+cd "/Users/vvshk/ml/ML Model Lab"
+python -m venv .venv
+source .venv/bin/activate
+pip install -U pip
+pip install -e .
+ml-model-lab
+```
+
+Keras support is optional:
+
+```bash
+pip install -e ".[keras]"
+```
+
+Developer tools:
+
+```bash
+pip install -e ".[dev]"
+pytest -q
+```

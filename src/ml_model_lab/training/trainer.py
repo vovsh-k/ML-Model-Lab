@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict, Optional
+from typing import Callable, Dict, Optional
 
 import numpy as np
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score, roc_auc_score
@@ -23,8 +23,14 @@ class TrainResult:
 
 
 class Trainer:
-    def __init__(self, model: BaseModel) -> None:
+    def __init__(self, model: BaseModel, feature_transform: Optional[Callable[[np.ndarray], np.ndarray]] = None) -> None:
         self.model = model
+        self.feature_transform = feature_transform
+
+    def _features(self, X: np.ndarray) -> np.ndarray:
+        if self.feature_transform is None:
+            return X
+        return self.feature_transform(X)
 
     def train_full(
         self,
@@ -34,10 +40,11 @@ class Trainer:
         y_test: np.ndarray,
         epochs: Optional[int] = None,
     ) -> TrainResult:
+        X_train_features = self._features(X_train)
         if epochs is not None:
-            self.model.fit(X_train, y_train, epochs=epochs)
+            self.model.fit(X_train_features, y_train, epochs=epochs)
         else:
-            self.model.fit(X_train, y_train)
+            self.model.fit(X_train_features, y_train)
         return self.evaluate(X_train, y_train, X_test, y_test)
 
     def train_step(
@@ -47,7 +54,7 @@ class Trainer:
         X_test: np.ndarray,
         y_test: np.ndarray,
     ) -> TrainResult:
-        self.model.step(X_train, y_train)
+        self.model.step(self._features(X_train), y_train)
         return self.evaluate(X_train, y_train, X_test, y_test)
 
     def evaluate(
@@ -57,10 +64,11 @@ class Trainer:
         X_test: np.ndarray,
         y_test: np.ndarray,
     ) -> TrainResult:
-        y_pred = self.model.predict(X_test)
+        X_test_features = self._features(X_test)
+        y_pred = self.model.predict(X_test_features)
         y_scores = None
         try:
-            proba = self.model.predict_proba(X_test)
+            proba = self.model.predict_proba(X_test_features)
             if proba is not None and proba.shape[1] >= 2:
                 y_scores = proba[:, 1]
         except Exception:
@@ -100,9 +108,10 @@ class Trainer:
         )
         grid = np.column_stack([xx.ravel(), yy.ravel()])
         try:
-            proba = self.model.predict_proba(grid)
+            grid_features = self._features(grid)
+            proba = self.model.predict_proba(grid_features)
             zz = proba[:, 1]
         except Exception:
-            zz = self.model.predict(grid)
+            zz = self.model.predict(self._features(grid))
         zz = zz.reshape(xx.shape)
         return HeatmapData(xx=xx, yy=yy, zz=zz)

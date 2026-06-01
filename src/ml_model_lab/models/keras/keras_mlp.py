@@ -25,6 +25,7 @@ class KerasMLPAdapter(BaseModel):
         self.l2 = l2
         self.batch_size = batch_size
         self.last_loss = None
+        self.loss_history: list[float] = []
         self._build_model()
 
     def _build_model(self) -> None:
@@ -39,6 +40,8 @@ class KerasMLPAdapter(BaseModel):
         self.model = model
 
     def reset(self) -> None:
+        self.loss_history.clear()
+        self.last_loss = None
         self._build_model()
 
     def fit(self, X, y, epochs: int = 50, batch_size: int | None = None, **kwargs):
@@ -47,6 +50,7 @@ class KerasMLPAdapter(BaseModel):
         history = self.model.fit(X, y, epochs=epochs, batch_size=batch_size, verbose=0)
         loss = history.history.get("loss")
         if loss:
+            self.loss_history.extend(float(value) for value in loss)
             self.last_loss = float(loss[-1])
 
     def step(self, X, y) -> None:
@@ -55,6 +59,7 @@ class KerasMLPAdapter(BaseModel):
         loss = self.model.train_on_batch(X[idx], y[idx], return_dict=False)
         try:
             self.last_loss = float(loss)
+            self.loss_history.append(self.last_loss)
         except Exception:
             self.last_loss = None
 

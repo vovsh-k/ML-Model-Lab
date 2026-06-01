@@ -26,4 +26,6 @@ src/ml_model_lab/training/__init__.py
 src/ml_model_lab/training/trainer.py
 src/ml_model_lab/viz/__init__.py
 src/ml_model_lab/viz/dataset_view.py
+src/ml_model_lab/viz/loss_plot_view.py
+src/ml_model_lab/viz/network_view.py
 tests/test_datasets.py
