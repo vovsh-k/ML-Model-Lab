@@ -1,4 +1,4 @@
-# ML Model Lab: Project Documentation
+# ML Model Lab
 
 ## Project Overview
 
@@ -149,36 +149,6 @@ The project uses several object-oriented ideas:
 - Added automatic parameter search for classic models.
 - Improved plotting colors and layout sizing.
 - Added basic pytest coverage for dataset generators.
-
-## Planned Work
-
-- Improve visual polish:
-  - cleaner spacing and typography.
-  - better fullscreen layout.
-  - more compact classic-model page.
-  - better state indicators for training.
-- Add dataset editor:
-  - add points.
-  - remove points.
-  - change point class.
-- Add training history:
-  - save experiment runs.
-  - compare metrics between models.
-  - show best run.
-- Improve neural-network visualization:
-  - show weights using edge thickness/color.
-  - show neuron activation values.
-  - animate updates during training.
-- Add export features:
-  - save plots as PNG.
-  - export metrics as CSV.
-  - save experiment configuration as JSON.
-- Add more tests:
-  - model registry tests.
-  - trainer tests.
-  - feature-transform tests.
-  - smoke tests for GUI construction.
-- Add optional CSV import after the synthetic playground is stable.
 
 ## Running the Project
 
